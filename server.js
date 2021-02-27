@@ -1,9 +1,10 @@
 import express from "express";
 import bodyParser from "body-parser";
-import bcrypt from "bcrypt-nodejs";
+import cors from "cors";
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 const database = {
   users: [
@@ -35,7 +36,7 @@ app.post("/signin", (req, res) => {
     req.body.email === database.users[0].email &&
     req.body.password === database.users[0].password
   ) {
-    res.json("Login Successful");
+    res.json(database.users[0]);
   } else {
     res.status(404).json("Invalid Login");
   }
@@ -76,8 +77,6 @@ app.put("/image", (req, res) => {
   const { id } = req.body;
   let found = false;
 
-  console.log(id);
-
   database.users.forEach((user) => {
     if (user.id === id) {
       found = true;
@@ -91,6 +90,6 @@ app.put("/image", (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("app is running on port 3000");
+app.listen(5000, () => {
+  console.log("app is running on port 5000");
 });
